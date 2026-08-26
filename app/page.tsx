@@ -100,8 +100,9 @@ export default function HomePage() {
             width={160}
             height={46}
             priority
-            style={{ height: "60px", width: "auto" }}
-          />{" "}
+            style={{ height: "46px", width: "auto" }}
+          />
+          &nbsp;&nbsp;
           <span className="logo-png">VIGYAAPN</span>
         </div>
       </nav>
