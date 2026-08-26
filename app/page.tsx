@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { track } from "@vercel/analytics";
 
 type Answers = {
   leads_per_day: string;
@@ -32,11 +33,19 @@ export default function HomePage() {
 
   const totalSteps = 7;
 
+  const trackStep = (step: number, question?: string) => {
+    track("Quiz Step", {
+      step: step,
+      question: question || `Step ${step}`,
+    });
+  };
+
   const selectOption = (key: keyof Answers, value: string) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
   };
 
   const nextStep = (step: number) => {
+    trackStep(step);
     setCurrentStep(step);
     // window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -79,6 +88,11 @@ export default function HomePage() {
       if (response.ok) {
         setIsSuccess(true);
         setCurrentStep(7);
+        track("Quiz Completed", {
+          name,
+          industry,
+          team_size: team,
+        });
       } else {
         throw new Error("Submission failed");
       }
